@@ -1,0 +1,101 @@
+
+
+ProgramsFiles- 
+														GridWorld_MonteCarlo_SingleVisit
+														GridWorld_MonteCarlo_EveryVisit.py
+
+PLot Files- 										
+														Monte Carlo Grid World Single Visit Plot.png
+														Monte Carlo Grid World Every Visit Plot.png
+														
+
+About the program:-
+Monte Carlo algorithm is applied with single visit and every visit methods on Grid World (Grid Size-4x4) problem
+
+Program Variables:-
+
+Discount Factor(Gamma)- 0.95
+
+States- A list containing 16 lists(states). state 0- [0,0], state 1 - [0,1], state 2- [0,2], state 3- [0,3], state 4- [1,3] ... state 16 - [3,3])
+
+terminationStates- List of two lists ([0,0] and [3,3])
+
+Returns are represented using list of List. First List is the state index and second list is its return
+
+Iterations = 50000
+
+Actions are represented using list of 4 lists(actions). Action representatios- 
+UP-  	[-1, 0]
+DOWN- 	[1,  0]
+RIGHT- 	[0,  1] 
+LEFT- 	[0, -1]
+
+Otpimal Policy is given although all possible actions are randomized with probability for each initial state, which will result into final states in the entire grid, 
+based on following dictionary.
+Keys- state indexes
+Values - List of Probability for all four actions () 
+action_prob = {(0,1):  [0.1,0.1,0.1,0.7], (0,2) : [0.1,0.1,0.1,0.7], (0,3) : [0.1,0.4,0.1,0.4],
+               (1,0) : [0.7,0.1,0.1,0.1], (1,1) : [0.4,0.1,0.1,0.4], (1,2) : [0.1,0.4,0.1,0.4],
+               (1,3) : [0.1,0.7,0.1,0.1], (2,0) : [0.7,0.1,0.1,0.1], (2,1) : [0.4,0.1,0.4,0.1],
+               (2,2) : [0.1,0.4,0.4,0.1], (2,3) : [0.1,0.7,0.1,0.1], (3,0) : [0.4,0.1,0.4,0.1],
+               (3,1) : [0.1,0.1,0.7,0.1], (3,2) : [0.1,0.1,0.7,0.1]}
+For Example in state (0,1) , the highest probability is chossing Left (0.7) and chossing other actions like Up, Down and Right are 0.1 each.
+
+EpisodeGenerator function-  returns list of episodes starting from different initial states and terminating at terminal states ([0,0] or [3,3]).
+Episode List will contain following values in this order (initState,action,reward,finalState)
+
+Rewards- If next/final state is non terminal state then reward is -1 else reward is 0
+
+Program Logic:-
+Episodes are initialized using different 'initialState' each time with different iter.
+Action is chosen randomly with probability association with avaiable 'actions' list being in one particular state and deciding next state.
+If final/next state is same as termination state then terminate the episode loop and return the episode list back to main function.
+For each initial state (or in a particular iter)
+	G = 0 (initial return is 0)
+	Epiosde list is reversed (starting with that that episode first where termination state is found and so on), calculating the returns using below formula-
+	G = gamma*G + Reward
+	Check whether that initState is visited only once then (This check is applicable only in Signle Visit method)
+		append the return only till that episode list in the return array
+		Calculate the Value of that state by averaging all the returns and store in Values array.
+ 
+Print all values and plot the graph (Average returns Vs Iters. Different Line colors indicate different states)
+
+Program Output:-
+Single Visit Monte Carlo Algo Output-
+
+Final Value for target state in grid [ 0 ][ 0 ]- 0.0
+Final Value for intermediate state in grid[ 0 ][ 1 ]- -0.2551653548094707
+Final Value for intermediate state in grid[ 0 ][ 2 ]- -1.3095571549120324
+Final Value for intermediate state in grid[ 0 ][ 3 ]- -2.5126084792669765
+Final Value for intermediate state in grid[ 1 ][ 0 ]- -0.23560538567961425
+Final Value for intermediate state in grid[ 1 ][ 1 ]- -1.3215025290914768
+Final Value for intermediate state in grid[ 1 ][ 2 ]- -2.2763495349800555
+Final Value for intermediate state in grid[ 1 ][ 3 ]- -1.3275721575476227
+Final Value for intermediate state in grid[ 2 ][ 0 ]- -1.2988947415949141
+Final Value for intermediate state in grid[ 2 ][ 1 ]- -2.298085476837316
+Final Value for intermediate state in grid[ 2 ][ 2 ]- -1.3203641258715595
+Final Value for intermediate state in grid[ 2 ][ 3 ]- -0.25539062552994707
+Final Value for intermediate state in grid[ 3 ][ 0 ]- -2.5203583052884606
+Final Value for intermediate state in grid[ 3 ][ 1 ]- -1.3019670965834786
+Final Value for intermediate state in grid[ 3 ][ 2 ]- -0.2514378295784505
+Final Value for target state in grid [ 3 ][ 3 ]- 0.0
+
+Every Visit Monte Carlo Algo Output-
+
+Final Value for target state in grid [ 0 ][ 0 ]- 0.0
+Final Value for intermediate state in grid[ 0 ][ 1 ]- -0.780152945229635
+Final Value for intermediate state in grid[ 0 ][ 2 ]- -2.349111939619977
+Final Value for intermediate state in grid[ 0 ][ 3 ]- -3.452903536912914
+Final Value for intermediate state in grid[ 1 ][ 0 ]- -0.8007007236175363
+Final Value for intermediate state in grid[ 1 ][ 1 ]- -2.222920900559769
+Final Value for intermediate state in grid[ 1 ][ 2 ]- -3.1461658188457355
+Final Value for intermediate state in grid[ 1 ][ 3 ]- -2.397616234278139
+Final Value for intermediate state in grid[ 2 ][ 0 ]- -2.3789200064591305
+Final Value for intermediate state in grid[ 2 ][ 1 ]- -3.167087962663518
+Final Value for intermediate state in grid[ 2 ][ 2 ]- -2.221944021123106
+Final Value for intermediate state in grid[ 2 ][ 3 ]- -0.8197845218800752
+Final Value for intermediate state in grid[ 3 ][ 0 ]- -3.5185218350456786
+Final Value for intermediate state in grid[ 3 ][ 1 ]- -2.4028251980665734
+Final Value for intermediate state in grid[ 3 ][ 2 ]- -0.8199187368579502
+Final Value for target state in grid [ 3 ][ 3 ]- 0.0
+
